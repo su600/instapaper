@@ -19,9 +19,66 @@ $ cd instapaper
 $ pip install .
 ```
 
+See the [envstack](#envstack) and [distman](#distman) sections for more
+installation and config options.
+
+## Basic Usage
+
+Logging in:
+
+```python
+>>> from instapaper import Instapaper as ipaper
+>>> i = ipaper(INSTAPAPER_KEY, INSTAPAPER_SECRET)
+>>> i.login(email_address, password)
+```
+
+Getting bookmarks:
+
+```python
+>>> marks = i.bookmarks()
+```
+
+Get the html:
+
+```python
+>>> marks[0].html
+```
+
+Or the raw text:
+    
+```python
+>>> marks[0].text
+```
+
+Folders:
+
+```python
+>>> folders = i.folders()
+>>> for f in folders:
+...     print f.folder_id, f.title
+```
+
+Move bookmark:
+
+```python
+>>> marks[0].move(f.folder_id)
+```
+
+## Playback
+
+Have a long commute home from work? Have your Instapaper bookmarks read back to
+you using "utter" (pip install utter). You can even have them read back to you
+in a differnet language, for example Italian: ::
+
+```python
+>>> import utter
+>>> for m in marks:
+...     utter.play(m.text, target="it")
+```
+
 #### envstack
 
-Environment variables can be managed in the instapaper.env files using
+Environment variables can optionally be managed in the instapaper.env files using
 [envstack](https://github.com/rsgalloway/envstack):
 
 ```shell
@@ -35,67 +92,13 @@ $ envstack instapaper -- python
 #### distman
 
 If installing from source you can use [distman](https://github.com/rsgalloway/distman)
-to install pyseq using the provided `dist.json` file:
+to install instapaper using the provided `dist.json` file:
 
 ```bash
-$ distman [-d]
+$ pip install -U distman
+$ dist [-d]
 ```
 
 Using distman will deploy the targets defined in the `dist.json` file to the
 root folder defined by `$DEPLOY_ROOT`, which can either be added to the
 instapaper.env file or a default.env file.
-
-## Basic Usage
-
-Logging in:
-
-```python
->>> from instapaper import Instapaper as ipaper
->>> i = ipaper(INSTAPAPER_KEY, INSTAPAPER_SECRET)
->>> i.login(email_address, password)
-```
-
-Getting bookmarks: ::
-
-```python
->>> marks = i.bookmarks()
-```
-
-Get the html: ::
-
-```python
->>> marks[0].html
-```
-
-Or the raw text: ::
-    
-```python
->>> marks[0].text
-```
-
-Folders: ::
-
-```python
->>> folders = i.folders()
->>> for f in folders:
-...     print f.folder_id, f.title
-```
-
-Move bookmark: ::
-
-```python
->>> marks[0].move(f.folder_id)
-```
-
-
-## Playback
-
-Have a long commute home from work? Have your Instapaper bookmarks read back to you
-using "utter" (pip install utter). You can even have them read back to you in a
-differnet language, for example Italian: ::
-
-```python
->>> import utter
->>> for m in marks:
-...     utter.play(m.text, target="it")
-```
