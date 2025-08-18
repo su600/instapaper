@@ -33,19 +33,24 @@
 # http://github.com/rsgalloway/instapaper
 # ---------
 
+import os
+
 from setuptools import setup
 
-requirements = [
-    "oauth2>=1.9.0.post1",
-]
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, "README.md")) as f:
+    long_description = f.read()
 
 setup(
     name="instapaper",
-    version="0.5",
-    description="Unofficial Instapaper Python API.",
+    version="0.5.0",
+    description="Unofficial Instapaper Python API",
+    long_description=long_description,
     author="Ryan Galloway",
     author_email="ryan@rsgalloway.com",
-    url="http://github.com/rsgalloway/instapaper",
+    url="https://github.com/rsgalloway/instapaper",
     py_modules=["instapaper"],
-    install_requires=requirements,
+    install_requires=[
+        "oauth2>=1.9.0.post1",
+    ],
 )
