@@ -121,6 +121,7 @@ def dehtml(text):
 
 
 class Bookmark(object):
+    """Lightweight wrapper for bookmark responses with lazy-loaded content helpers."""
     def __init__(self, parent, params):
         self.parent = parent
         self.__text = None
@@ -254,43 +255,23 @@ class Bookmark(object):
         return False
 
     def save(self, folder_id=None):
-        # add appropriate parameters to a dictionary for encoding
+        """
+        Persist the bookmark to Instapaper using available local fields and an optional folder.
+        """
         encoded_values = {}
-        try:
-            if self.content:
-                encoded_values["content"] = self.content
-        except:
-            pass
+        for attr in (
+            "content",
+            "is_private_from_source",
+            "url",
+            "title",
+            "description",
+        ):
+            value = getattr(self, attr, None)
+            if value:
+                encoded_values[attr] = value
 
-        try:
-            if self.is_private_from_source:
-                encoded_values["is_private_from_source"] = self.is_private_from_source
-        except:
-            pass
-
-        try:
-            if self.url:
-                encoded_values["url"] = self.url
-        except:
-            pass
-
-        try:
-            if self.title:
-                encoded_values["title"] = self.title
-        except:
-            pass
-
-        try:
-            if self.description:
-                encoded_values["description"] = self.description
-        except:
-            pass
-
-        try:
-            if folder_id:
-                encoded_values["folder_id"] = folder_id
-        except:
-            pass
+        if folder_id:
+            encoded_values["folder_id"] = folder_id
 
         # send the http request
         response, html = self.parent.http.request(
@@ -371,6 +352,8 @@ class InstapaperAuthenticationException(InstapaperException):
 
 
 class Instapaper(object):
+    """Instapaper API client backed by OAuth consumer credentials."""
+
     def __init__(self, oauthkey, oauthsec):
         if not oauthkey or not oauthsec:
             raise InstapaperAuthenticationException(
