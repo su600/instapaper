@@ -86,7 +86,7 @@ $ pip install -U envstack
 $ envstack instapaper -- python
 >>> import instapaper
 >>> instapaper._API_VERSION_
-'api/1.2'
+'api/1.1'
 ```
 
 #### distman
