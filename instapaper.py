@@ -267,7 +267,7 @@ class Bookmark(object):
             "description",
         ):
             value = getattr(self, attr, None)
-            if value:
+            if value is not None:
                 encoded_values[attr] = value
 
         if folder_id:
