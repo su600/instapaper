@@ -1,0 +1,11 @@
+name: Use Auto Assign
+
+on:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  auto-assign:
+    uses: su600/Template/.github/workflows/auto-assign-reviewer.yml@main
+    with:
+      reviewer: su600
